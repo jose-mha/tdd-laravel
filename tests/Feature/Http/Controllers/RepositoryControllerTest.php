@@ -4,10 +4,12 @@ namespace Tests\Feature\Http\Controllers;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+Use App\Models\User;
+use Illuminate\Foundation\Testing\WithFaker;
 
 class RepositoryControllerTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithFaker;
 
     public function test_guest()
     {
@@ -17,6 +19,23 @@ class RepositoryControllerTest extends TestCase
         $this->put('repositories/1')->assertRedirect('login');           //update
         $this->delete('repositories/1')->assertRedirect('login');        //destroy
         $this->get('repositories/create')->assertRedirect('login');      //create
-        $this->post('repositories', [])->assertRedirect('login'); //guardar
+        $this->post('repositories', [])->assertRedirect('login'); //store
+    }
+
+    public function test_store()
+    {
+        $data = [
+            'url' => $this->faker->url,
+            'description' => $this->faker->text,
+        ];
+
+        $user = User::factory()->create();
+
+        $this
+            ->actingAs($user)
+            ->post('repositories', $data)
+            ->assertRedirect('repositories');
+
+        $this->assertDatabaseHas('repositories', $data);
     }
 }
