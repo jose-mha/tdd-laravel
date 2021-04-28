@@ -156,4 +156,27 @@ class RepositoryControllerTest extends TestCase
             ->assertStatus(403);
     }
 
+    //
+
+    public function test_show()
+    {
+        $user = User::factory()->create();
+        $repository = Repository::factory()->create(['user_id' => $user->id]);
+
+        $this
+            ->actingAs($user)
+            ->get("repositories/$repository->id")
+            ->assertStatus(200);
+    }
+
+    public function test_show_pilicy()
+    {
+        $user = User::factory()->create(); //! id = 1
+        $repository = Repository::factory()->create(); //! user_id = 2
+
+        $this
+            ->actingAs($user)
+            ->get("repositories/$repository->id")
+            ->assertStatus(403);
+    }
 }
