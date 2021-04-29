@@ -31,12 +31,14 @@
                             <td class="border px-4 py-2">{{ $repository->id }}</td>
                             <td class="border px-4 py-2">{{ $repository->url }}</td>
                             <td class="px-4 py-2">
-                                <a href="{{ route('repositories.show', $repository) }}"></a>
-                                Ver
+                                <a href="{{ route('repositories.show', $repository) }}">
+                                    Ver
+                                </a>
                             </td>
                             <td class="px-4 py-2">
-                                <a href="{{ route('repositories.edit', $repository) }}"></a>
-                                Editar
+                                <a href="{{ route('repositories.edit', $repository) }}">
+                                    Editar
+                                </a>
                             </td>
                             <td class="px-4 py-2">
                                 <form action="{{ route('repositories.destroy', $repository) }}" method="POST">
